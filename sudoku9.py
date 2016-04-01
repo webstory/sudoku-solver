@@ -34,11 +34,11 @@ class sudokumatrix:
 		for position in range(maxnum*maxnum):
 			# RowMap
 			row = (position // self.sudokuLength) * self.sudokuLength
-			self.areaMap[position].update(range(row,row + self.sudokuLength))
+			self.areaMap[position].update(list(range(row,row + self.sudokuLength)))
 
 			# ColMap
 			col = position % self.sudokuLength
-			self.areaMap[position].update(range(col, self.sudokuLength ** 2, self.sudokuLength))
+			self.areaMap[position].update(list(range(col, self.sudokuLength ** 2, self.sudokuLength)))
 
 			# BoxMap
 			count = 0
@@ -74,17 +74,17 @@ class sudokumatrix:
 		count = 0
 		for i in range(self.sudokuLength):
 			for j in range(self.sudokuLength):
-				print self.cells[count],
+				print(self.cells[count], end=' ')
 				count += 1
-			print ""
+			print("")
 
 	def ViewCellMask(self):
 		count = 0
 		for i in range(self.sudokuLength):
 			for j in range(self.sudokuLength):
-				print self.cellMask[count],
+				print(self.cellMask[count], end=' ')
 				count += 1
-			print ""
+			print("")
 	
 
 
@@ -110,7 +110,7 @@ class guess:
 				if self.matrix.cells[i] == 0 and len(maskedNumbers) == canFill:
 					continueflag = 1
 					number = (self.matrix.availNumberSet - maskedNumbers).pop()
-					print "Fillable cell found : position %d is %d" % (i,number)
+					print("Fillable cell found : position %d is %d" % (i,number))
 					self.matrix.ChangeCell(i,number)
 				elif self.matrix.cells[i] == 0 and len(maskedNumbers) == canFill + 1: # Incorrect sudoku condition
 					return 1
@@ -154,7 +154,7 @@ class guess:
 		guessnumbers = self.matrix.availNumberSet - self.BuildCellMaskSet(guessposition)
 
 		for guessnumber in guessnumbers:
-			print "Guess : position %d maybe %d" % (guessposition,guessnumber)
+			print("Guess : position %d maybe %d" % (guessposition,guessnumber))
 			self.matrix.ChangeCell(guessposition,guessnumber)
 			nextguess = guess()
 			result = nextguess.Guess(self.matrix)
@@ -165,13 +165,13 @@ class guess:
 			if result == 2: # No more proceed, please.
 				return 2
 
-			print "Guess : position %d is not %d. guess next" % (guessposition,guessnumber)
+			print("Guess : position %d is not %d. guess next" % (guessposition,guessnumber))
 
 		return 0
 
 
 	def FindAnotherSolution(self):
-		yesno = raw_input("Find Another Solution?(y/N) : ")
+		yesno = input("Find Another Solution?(y/N) : ")
 	
 		if yesno == 'y':
 			return 0
@@ -182,23 +182,23 @@ class guess:
 
 def Input():
 	while 1:
-		inputdata = raw_input('Input sudoku matrix : ')
+		inputdata = input('Input sudoku matrix : ')
 
 		length = math.sqrt(len(inputdata.split(',')))
 
 		# Validator
 		if int(length) != length :
-			print max(inputdata.split(',')), length
-			print "Wrong Data! Please Input Again"
-			print "Example : 9,0,0,8,2,0,1,3,4,0,0,0,0,0,0,0,0,0,0,0,0,0,6,4,0,9,0,0,0,0,7,0,0,2,1,0,0,0,7,0,0,0,3,0,0,0,8,3,0,0,5,0,0,0,0,9,0,1,7,0,0,0,0,3,0,0,0,0,0,0,0,0,5,1,8,0,4,3,0,0,2"
-			print "(9x9 sudoku)"
+			print(max(inputdata.split(',')), length)
+			print("Wrong Data! Please Input Again")
+			print("Example : 9,0,0,8,2,0,1,3,4,0,0,0,0,0,0,0,0,0,0,0,0,0,6,4,0,9,0,0,0,0,7,0,0,2,1,0,0,0,7,0,0,0,3,0,0,0,8,3,0,0,5,0,0,0,0,9,0,1,7,0,0,0,0,3,0,0,0,0,0,0,0,0,5,1,8,0,4,3,0,0,2")
+			print("(9x9 sudoku)")
 			continue
 		else:
 			break
 
 	length = int(length)
 
-	print "(",length,"x",length,") sudoku :"
+	print("(",length,"x",length,") sudoku :")
 
 	data = sudokumatrix(length)
 	count = 0
@@ -217,7 +217,7 @@ while 1:
 
 	data.ViewMatrix()
 
-	yesno = raw_input("Is this Correct?(y/N) : ")
+	yesno = input("Is this Correct?(y/N) : ")
 
 	if yesno == 'y':
 		break
